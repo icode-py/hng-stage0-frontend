@@ -2,7 +2,6 @@
 
 A fully accessible, responsive todo task card component built for the HNG Frontend Track Stage 0 task. This component features real-time time remaining updates, semantic HTML, complete keyboard navigation, and all required test IDs for automated testing.
 
-![Task Card Preview](https://icode-py.github.io/hng-stage0-frontend/)
 
 ## Live Demo
 
