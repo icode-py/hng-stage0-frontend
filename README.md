@@ -1,113 +1,72 @@
-# HNG Stage 0 - Todo Task Card
 
-A fully accessible, responsive todo task card component built for the HNG Frontend Track Stage 0 task. This component features real-time time remaining updates, semantic HTML, complete keyboard navigation, and all required test IDs for automated testing.
 
+# HNG Stage 1 - Advanced Todo Card
+
+Interactive, stateful todo card component with edit mode, status transitions, priority changes, expand/collapse behavior, and dynamic time handling.
 
 ## Live Demo
 
 🔗 **Live URL**: [https://icode-py.github.io/hng-stage0-frontend/](https://icode-py.github.io/hng-stage0-frontend/)
 
-## Features
+## What Changed from Stage 0
 
-- ✅ **Real-time time remaining** updates every 45 seconds
-- ✅ **Complete accessibility** - WCAG AA compliant, keyboard navigable
-- ✅ **Fully responsive** - Works perfectly from 320px to 1200px+
-- ✅ **Semantic HTML** - article, time, lists, proper button elements
-- ✅ **All test IDs included** - Ready for automated testing
-- ✅ **Interactive completion toggle** - Checkbox with visual feedback
-- ✅ **Priority badges** with color coding (High/Medium/Low)
-- ✅ **Tag system** with customizable categories
+### New Features
+- **Edit Mode**: Complete form to edit all task details
+- **Status Control**: Dropdown to manually change status
+- **Priority Visual Indicator**: Left border accent that changes color
+- **Expand/Collapse**: Description collapses if too long
+- **Overdue Indicator**: Visual warning when task is past due
+- **Granular Time Remaining**: Shows minutes, hours, or days
+- **Status Synchronization**: Checkbox and status control stay in sync
 
-## Technologies Used
-
-- HTML5 (Semantic)
-- CSS3 (Flexbox, Grid, Media Queries)
-- Vanilla JavaScript (ES6+)
-- GitHub Pages (Hosting)
+### Technical Improvements
+- Added `aria-expanded` and `aria-controls` for collapse
+- Added `aria-live="polite"` for time updates
+- Enhanced keyboard navigation flow
+- Improved responsive layout for edit form
+- Added focus trapping in edit mode
 
 ## How to Run Locally
 
-### Option 1: Direct Download
-1. **Download the HTML file**
-   ```bash
-   curl -O https://icode-py.github.io/hng-stage0-frontend/
+```bash
+# Clone the repository
+git clone https://github.com/icode-py/hng-stage0-frontend.git
 
-## Trade-offs & Limitations
-No Build Step
+# Open index.html in your browser
+open index.html
 
-Trade-off: No module bundling or minification
+## New Design Decisions
+Left Border Priority Indicator - Clean visual without extra text
 
-Why: Simpler for review and testing requirements
+Inline Edit Mode - Stays on same card instead of modal
 
-Impact: Slightly larger file size but still under 15KB
+45-Second Time Updates - Balances accuracy with performance
 
-Client-Side Only
+100-Character Collapse Threshold - Optimal for readability
 
-Trade-off: No persistent storage or backend
+## Accessibility Notes
+All edit form fields have proper <label for="">
 
-Why: Task only required frontend component
+Status dropdown has accessible name via aria-label
 
-Impact: Refresh resets completion state 
+Expand toggle uses aria-expanded and aria-controls
 
-Fixed Priority Value
+Time updates use aria-live="polite"
 
-Trade-off: Hard-coded "High" priority instead of dynamic
+Full keyboard navigation (Tab order preserved)
 
-Why: Meets requirement while keeping scope manageable
+## Known Limitations
+Delete button uses confirm dialog (could be modal)
 
-Impact: Users can't change priority without code edit
+No localStorage persistence (refreshing resets state)
 
-Simple Alert Dialogs
+Due date picker limited to datetime-local format
 
-Trade-off: Using native alert() and confirm() for edit/delete
+## Built With
+HTML5 (Semantic)
 
-Why: No extra dependencies, fully accessible
+CSS3 (Flexbox, Grid)
 
-Impact: Less polished than modal dialogs but functional
+Vanilla JavaScript (ES6+)
 
-Single Task Card
-
-Trade-off: One card instead of multiple tasks
-
-Why: Focused on component quality per requirements
-
-Impact: Not a full todo app but demonstrates all features
-
-Testing
-Automated Testing Support
-All required data-testid attributes are present:
-
-test-todo-card - Card container
-
-test-todo-title - Task title
-
-test-todo-description - Task description
-
-test-todo-priority - Priority badge
-
-test-todo-due-date - Due date display
-
-test-todo-time-remaining - Time remaining
-
-test-todo-status - Status indicator
-
-test-todo-complete-toggle - Checkbox
-
-test-todo-tags - Categories list
-
-test-todo-edit-button - Edit button
-
-test-todo-delete-button - Delete button
-
-Manual Testing Checklist
-Tab navigation reaches: Checkbox → Edit → Delete buttons
-
-Space/Enter toggles checkbox
-
-Time remaining updates within 60 seconds
-
-Card stacks vertically on mobile
-
-No horizontal scroll at any width
-
-Screen reader announces all content
+GitHub Pages
