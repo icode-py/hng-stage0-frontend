@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Profile Card | HNG Stage 1B</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Profile Card Container */
+        [data-testid="test-profile-card"] {
+            background: white;
+            border-radius: 32px;
+            padding: 32px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        [data-testid="test-profile-card"]:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Profile Layout - Desktop (Avatar left, content right) */
+        .profile-layout {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Avatar Section */
+        .avatar-section {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        figure {
+            margin: 0;
+        }
+
+        [data-testid="test-user-avatar"] {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        [data-testid="test-user-avatar"]:hover {
+            transform: scale(1.05);
+        }
+
+        figcaption {
+            margin-top: 12px;
+            color: #667eea;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        /* Name Header */
+        header {
+            margin-bottom: 16px;
+        }
+
+        [data-testid="test-user-name"] {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        /* Bio */
+        [data-testid="test-user-bio"] {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #f7fafc;
+            border-radius: 16px;
+            font-size: 0.95rem;
+        }
+
+        /* Time Display */
+        .time-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .time-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        [data-testid="test-user-time"] {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Social Links */
+        .social-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        [data-testid="test-user-social-links"] {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+        }
+
+        [data-testid^="test-user-social-"] {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f7fafc;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        [data-testid^="test-user-social-"]:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            border-color: #667eea;
+        }
+
+        [data-testid^="test-user-social-"]:focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Hobbies & Dislikes Grid */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .interest-section {
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .interest-section h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        [data-testid="test-user-hobbies"],
+        [data-testid="test-user-dislikes"] {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        [data-testid="test-user-hobbies"] li,
+        [data-testid="test-user-dislikes"] li {
+            padding: 6px 12px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        [data-testid="test-user-hobbies"] li {
+            background: #e6f7e6;
+            color: #276749;
+            border-color: #c6f6d5;
+        }
+
+        [data-testid="test-user-dislikes"] li {
+            background: #fee;
+            color: #c53030;
+            border-color: #fed7d7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            [data-testid="test-profile-card"] {
+                padding: 24px;
+            }
+
+            .profile-layout {
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;
+            }
+
+            .avatar-section {
+                text-align: center;
+            }
+
+            [data-testid="test-user-avatar"] {
+                width: 140px;
+                height: 140px;
+            }
+
+            [data-testid="test-user-name"] {
+                font-size: 1.75rem;
+                text-align: center;
+            }
+
+            .interests-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            [data-testid="test-profile-card"] {
+                padding: 16px;
+            }
+
+            [data-testid="test-user-name"] {
+                font-size: 1.5rem;
+            }
+
+            [data-testid="test-user-time"] {
+                font-size: 1rem;
+            }
+
+            [data-testid="test-user-social-links"] {
+                flex-direction: column;
+            }
+
+            [data-testid^="test-user-social-"] {
+                justify-content: center;
+            }
+        }
+
+        /* Focus Styles for Accessibility */
+        button:focus-visible,
+        a:focus-visible,
+        [role="button"]:focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Keyboard navigation indicator */
+        .keyboard-nav-indicator:focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Live time update animation */
+        @keyframes timeUpdate {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .time-updated {
+            animation: timeUpdate 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <article data-testid="test-profile-card" aria-label="User Profile Card">
+        <div class="profile-layout">
+            <!-- Avatar Section -->
+            <div class="avatar-section">
+                <figure>
+                    <img data-testid="test-user-avatar" src="https://randomuser.me/api/portraits/women/68.jpg"
+                        alt="Profile avatar of Sarah Johnson, a software developer with short brown hair and glasses"
+                        width="180" height="180">
+                    <figcaption>Profile Photo</figcaption>
+                </figure>
+            </div>
+
+            <!-- Content Section -->
+            <div class="content-section">
+                <!-- Name -->
+                <header>
+                    <h2 data-testid="test-user-name">Sarah Johnson</h2>
+                </header>
+
+                <!-- Bio -->
+                <p data-testid="test-user-bio">
+                    🚀 Senior Frontend Developer with 8+ years of experience building accessible,
+                    performant web applications. Passionate about creating inclusive digital experiences
+                    and mentoring junior developers. Currently exploring WebAssembly and AI integration
+                    in modern web apps.
+                </p>
+
+                <!-- Current Time -->
+                <div class="time-container" aria-live="polite">
+                    <span class="time-label">⏰ Current Epoch Time</span>
+                    <div data-testid="test-user-time" id="epochTime">Loading...</div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="social-section">
+                    <div class="section-title">
+                        <span>🔗</span> Connect With Me
+                    </div>
+                    <nav aria-label="Social media links">
+                        <ul data-testid="test-user-social-links">
+                            <li>
+                                <a data-testid="test-user-social-github" href="https://github.com/icode-py"
+                                    target="_blank" rel="noopener noreferrer">
+                                    💻 GitHub
+                                </a>
+                            </li>
+                            <li>
+                                <a data-testid="test-user-social-linkedin" href="https://linkedin.com/in/"
+                                    target="_blank" rel="noopener noreferrer">
+                                    🔗 LinkedIn
+                                </a>
+                            </li>
+                            <li>
+                                <a data-testid="test-user-social-twitter" href="https://twitter.com/Dattallmachoman"
+                                    target="_blank" rel="noopener noreferrer">
+                                    🐦 Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a data-testid="test-user-social-devto" href="https://dev.to/sarahjohnson"
+                                    target="_blank" rel="noopener noreferrer">
+                                    📝 Dev.to
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Hobbies & Dislikes Grid -->
+                <div class="interests-grid">
+                    <!-- Hobbies Section -->
+                    <section class="interest-section" aria-label="Hobbies">
+                        <h3>⭐ Hobbies & Interests</h3>
+                        <ul data-testid="test-user-hobbies">
+                            <li>📚 Reading Sci-Fi</li>
+                            <li>🎸 Playing Guitar</li>
+                            <li>🏃‍♀️ Running</li>
+                            <li>🎮 Indie Games</li>
+                            <li>☕ Coffee Tasting</li>
+                        </ul>
+                    </section>
+
+                    <!-- Dislikes Section -->
+                    <section class="interest-section" aria-label="Dislikes">
+                        <h3>🚫 Dislikes</h3>
+                        <ul data-testid="test-user-dislikes">
+                            <li>🐌 Slow Internet</li>
+                            <li>📱 Pop-up Ads</li>
+                            <li>🌧️ Humid Weather</li>
+                            <li>📦 Legacy Code</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        // Get DOM element for time display
+        const timeElement = document.getElementById('epochTime');
+
+        // Function to update epoch time
+        function updateEpochTime() {
+            const currentTime = Date.now();
+            timeElement.textContent = currentTime.toLocaleString();
+            timeElement.setAttribute('datetime', currentTime);
+
+            // Add animation class for visual feedback
+            timeElement.classList.add('time-updated');
+            setTimeout(() => {
+                timeElement.classList.remove('time-updated');
+            }, 300);
+        }
+
+        // Initial update
+        updateEpochTime();
+
+        // Update every 500ms (faster updates show real-time changes)
+        // Using 500ms to demonstrate dynamic updates while meeting requirements
+        setInterval(updateEpochTime, 500);
+
+        // Add keyboard navigation enhancement
+        const allInteractive = document.querySelectorAll('a, button, [role="button"]');
+        allInteractive.forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    el.click();
+                }
+            });
+        });
+
+        // Log for console to show it's working
+        console.log('Profile Card loaded - Time updates every 500ms');
+
+        // Optional: Add focus trap for better accessibility 
+        const profileCard = document.querySelector('[data-testid="test-profile-card"]');
+        profileCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                const focusableElements = profileCard.querySelectorAll(
+                    'a, button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstFocusable = focusableElements[0];
+                const lastFocusable = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey && document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
